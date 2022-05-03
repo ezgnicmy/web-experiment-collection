@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Simple Instant-Response JavaScript Difference and Multiplier Calculators</title>
+  <meta charset="utf-8">
+  <style>
+  </style>
+ </head>
+ <body>
+  <template>
+   <pre>The page is still loading if this text is visible.</pre> 
+  </template
+  <h1>Diff calculator - relative, percentage and value</h1>
+  <hr>
+  <form action="#diff0_results" name="form_diff0">
+   <label for="value0">Initial value</label>
+   <input type="text" value="0" id="value0" name="initial_value"  onchange="calc_diff(form_diff0)" >
+   <label for="value1">Final value</label>
+   <input type="text" value="0" id="value1" name="final_value" onchange="calc_diff(form_diff0)" >
+  </form>
+  <a name="diff0_results"><p id="diff0_output" style="font-style: italic;">Difference:
+   <span id="diff0_results"  style="font-style: normal; font-weight: 400;"></span>
+  </p></a>
+
+  <script type="text/javascript">
+    function calc_diff(form) {
+	 var val_diff0 = form.elements["final_value"].value - form.elements["initial_value"].value
+	 var val_diff_relative = (val_diff0) / form.elements["initial_value"].value;
+//	 console.log(val_diff0 + " " + val_diff_relative)
+	 var text = val_diff_relative.toFixed(4) + " ( " + (val_diff_relative * 100).toFixed(2) + "% ), "+ val_diff0.toFixed(4);
+	 var output_element = document.getElementById("diff0_results");
+	 output_element.innerHTML = text;
+	 // pre-input the relative multiplier for the next form to use
+	 document.forms["form_multiply0"].value0.value = 1 + val_diff_relative;
+	 //console.log(text);
+	}
+  </script>
+  <hr>
+  <h2>Calculate a value with a generated multiplier</h2>
+  <hr>
+  <form action="#diff1_results" name="form_multiply0">
+   <label for="value0">Multiplier</label>
+   <input type="text" value="0" id="value0" name="multiplier"  onchange="calc_multiplier(form_multiply0)" >
+   <label for="value1">Initial value</label>
+   <input type="text" value="0" id="value1" name="initial_value" onchange="calc_multiplier(form_multiply0)" >
+  </form>
+  <p id="multiply0_output" style="font-style: italic;">Multiplied value:  
+   <span id="multiply0_results"  style="font-style: normal; font-weight: 400;"></span>
+  </p>
+  <script type="text/javascript">
+   function calc_multiplier(form, output_element) {
+     var val_mplier0_result = form.elements["multiplier"].value * form.elements["initial_value"].value
+	 var output_element = document.getElementById("multiply0_results");
+	 output_element.innerHTML = val_mplier0_result.toFixed(4)
+   }
+  </script>
+  <noscript>Noscript mode on, yeah!</noscript>
+ </body>
+</html>

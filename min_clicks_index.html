@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>As few clicks as possible to select a page</title>
+  <meta charset="utf-8">
+  <style>
+   .list_item01 {
+  width: 8em;
+  display: table-cell;
+  /*height: 100px;*/
+  border: 1px solid black;
+  margin: 0px;
+  /*float: left;*/
+  padding: 10px;
+  text-align: center;
+  background-color: lightgray;
+   }
+  </style>
+ </head>
+ <body>
+  <template>
+   <pre>The page is still loading if this text is visible.</pre> 
+  </template
+  <nav>
+   <ul class="list_root00" id="root000">
+    <li class="list_item01">All items (list D)</li>
+    <ul class="sub_list02" id="sub_list000">
+     <li class="list_item01">Item 03</li>
+     <ul class="sub_list02" id="sub_list001">
+	  <li class="list_item01">Item 13</li>
+      <ul class="sub_list02" id="sub_list002">
+       <li class="list_item01">Item 23</li>
+       <ul class="sub_list02" id="sub_list003">
+	    <li class="list_item01">Item 33</li>
+	   </ul>	   
+	  </ul>
+	 </ul>
+    </ul>
+	<!-- TO TEST MULTI-CHILD ENTRIES -->
+	<ul class="sub_list02" id="sub_list008">
+	 <li class="list_item01">Item 38</li>
+	</ul>
+   </ul>
+   <!-- Another list for some challenge for the onMouseOver event gen -->
+   <ul class="list_root00" id="root001">
+    <li class="list_item01">All items (list W)</li>
+	<ul class="sub_list02" id="sub_list004">
+     <li class="list_item01">Item 47</li>
+     <ul class="sub_list02" id="sub_list005">
+	  <li class="list_item01">Item 57</li>
+      <ul class="sub_list02" id="sub_list006">
+       <li class="list_item01">Item 67</li>
+       <ul class="sub_list02" id="sub_list007">
+	    <li class="list_item01">Item 77</li>
+	   </ul>
+	  </ul>
+	 </ul>
+    </ul>
+	<!-- FOR TESTING:
+	<ul class="list_root00" id="failure_root00"></ul>
+	-->
+  </nav>
+  <script type="text/javascript">
+  
+   
+   //hide the visible LI elements until needed
+   var x = document.getElementsByClassName("list_item01");
+   for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+	//console.log(" d " + x[i].style.display + x[i].innerHTML + " z ");
+   }
+   
+   // MISSION 1: add some autogen onMouseOver to the list root nodes
+   
+   //Step 1: collect the root nodes
+   
+   resetLists();
+    
+   // this is a comment
+   // add the event attributes
+//   for (i = 0; i< x.length; i++) {
+    
+//   }
+   
+   
+   // FUNC AREA ->
+   
+      // menu list is an LI element followed by 0:n ul subcategories that need to be given an event 
+   function add_next_menu_event(list_id) {
+    // ignore the first parent descriptor node (index 0), make the sub items visible i.e. the rest of the list
+	var a = document.getElementById(list_id).children;
+	var b;
+	for (i=1;i<a.length;i++) {	 
+	 if (a[i].tagName === "UL") {
+//	  console.log("chil " + a[i]);
+	  b = a[i].firstElementChild;
+	  console.log(b);
+	  b.onmouseover = function() { add_next_menu_event(a[i].id); }
+	 }
+	}
+	//console.log(menu_list);
+    //console.log(menu_list.children);
+//    console.log(menu_list.innerHTML);
+	//showNext(menu_list);
+	//x = list.item
+//	for (i=0;i<
+    console.log("yaas");
+   }
+   
+   //expands the item menu upon onmouseover Event selection
+   // called with the initial root node list to initialize onmouseover menu lists
+   function showNext(menu_list) {
+    var a = menu_list.children;
+	var b;
+	//console.log(menu_list.firstElementChild);
+	// The first LI is always the title of the n-1 tier list
+	b = menu_list.firstElementChild;
+//	console.log(b);
+	if (b != null) {
+	 //console.log("id: " + menu_list.id);
+	 b.onmouseover = function() { add_next_menu_event(menu_list.id); }
+	 b.style.display = "table-cell";
+	 for (j = 0; j< a.length; j++) {
+	 // setup the lower tier events ? NOPE
+	
+	
+	 //do the adding
+	 //li_node
+	 //console.log(y[j].tagName);
+	 // Make visible tier LI tags visible and add onMouseOver events
+	 // The first LI is always the title of the n-1 tier list
+	 
+//     if (a[j].tagName === 'LI') {
+	 
+ 	  //console.log(" R ier " + y[j] + " " + y[j].innerText + " " + y[j].outerText);
+	  // A DUMB TEST FUN
+// 	  a[j].onmouseover = function() { add_next_menu_event(a[j]); }
+     
+	  //console.log("museovah " + y[j] + " " + y[j].mouseover);
+//	  a[j].style.display = "block";
+     
+	 }  // for_end
+
+    } else {
+	 // the LI descriptor elem is missing, cannot visualize the list without the interactable text
+	 var text = menu_list.innerHTML;
+	 console.log("A malformed menu list detected: no LI descriptor. Dump: " +text );
+	} // else_end
+    // A THEY HUNGER MP TEST SCREEN CAP REF, NUTHIN
+	console.log("I am teh pilot!");	 
+   }
+
+   
+   /*function showContent() {
+   // var temp = document.getElementsByTagName("template")[0];
+   // var clon = temp.content.cloneNode(true);
+   // document.body.appendChild(clon);
+   } */
+   
+   // Unshow all onmouseover menus once the focus is lost
+   function resetLists() {
+   //hide the visible LI elements until needed and clear up the events to minimize performance issues
+   var x = document.getElementsByClassName("list_item01");
+   for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+	x[i].onmouseover = null;
+	//console.log(" d " + x[i].style.display + x[i].innerHTML + " z ");
+   }
+    // activates tier 1 menu objects and their events
+    var x = document.getElementsByClassName("list_root00");
+    for (i = 0; i< x.length; i++) {
+	 showNext(x[i]);
+    }
+   }
+   //var g = document.getElementsByClassName("list_item01")[0];
+   //console.log(g.style.display + " a");
+  </script>
+  <noscript>Noscript mode on, yeah!</noscript>
+ </body>
+</html>
